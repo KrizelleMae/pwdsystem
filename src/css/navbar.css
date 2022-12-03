@@ -1,0 +1,22 @@
+.content {
+  padding: 20px 0;
+  position: sticky;
+  z-index: 50;
+}
+.view {
+  position: sticky;
+}
+.nav-list {
+  margin-left: auto;
+}
+.nav-items {
+  margin-right: 40px;
+  font-weight: 600;
+  text-decoration: none;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  background-color: whitesmoke;
+}

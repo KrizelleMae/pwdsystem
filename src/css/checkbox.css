@@ -1,0 +1,25 @@
+.list-container {
+  background: rgb(167, 221, 203);
+  border-radius: 6px;
+  margin-bottom: 10px;
+  padding: 1.5rem;
+}
+.list-container {
+  display: inline-table;
+  align-items: left;
+  gap: 1rem;
+}
+.chck {
+  font-size: medium;
+  margin-left: 0.25rem;
+  font-weight: 100;
+}
+
+#choice {
+  background-color: azure;
+  color: teal;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition-duration: 300ms;
+}
