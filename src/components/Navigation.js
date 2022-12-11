@@ -26,7 +26,7 @@ import { BiHomeSmile } from "react-icons/bi";
 import FontSizeChanger from "react-font-size-changer";
 
 import "../css/navbar.css";
-import Body_Jobpost from "../components/Body_Jobpost";
+import JobPost from "../components/JobPost";
 import WatchVideo from "../components/WatchVideo";
 import Footer from "../components/Footer";
 

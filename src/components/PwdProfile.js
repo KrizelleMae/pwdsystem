@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Flex,
@@ -8,10 +8,7 @@ import {
   Input,
   Stack,
   useColorModeValue,
-  HStack,
   Avatar,
-  AvatarBadge,
-  IconButton,
   Center,
   Box,
   Badge,
@@ -24,24 +21,45 @@ import {
   DrawerContent,
   DrawerCloseButton,
   useDisclosure,
-  Square,
   Spacer,
   ButtonGroup,
   Divider,
-  toggleColorMode,
-  colorMode,
   useColorMode,
   VStack,
   Checkbox,
   Image,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalBody,
+  Container,
+  List,
+  HStack,
 } from "@chakra-ui/react";
-import { BsSun, BsMoonStarsFill } from "react-icons/bs";
-import Footer from "../components/Footer";
-import { SmallCloseIcon } from "@chakra-ui/icons";
+import {
+  BsSun,
+  BsMoonStarsFill,
+  BsFilePlus,
+  BsFillPencilFill,
+} from "react-icons/bs";
+
 import "../css/navbar.css";
-import Body_Jobpost from "./Body_Jobpost";
+import JobSpecific from "./JobSpecific";
+import Pwdsignup from "./Pwdsignup";
+import api from "../restapi/api";
+import { FiLogOut } from "react-icons/fi";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function PwdProfile(props) {
+  const [userid, setUserid] = useState(localStorage.getItem("id"));
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+  const [address, setAddress] = useState("");
+  const [bio, setBio] = useState("");
+  const [email, setEmail] = useState("");
+  const [contact, setContact] = useState("");
+  const [skills, setSkills] = useState([]);
+  const [jobForId, setJobForId] = useState(0);
   const { isOpen: isOpen, onOpen: onOpen, onClose: onClose } = useDisclosure();
   const {
     isOpen: isOpen1,
@@ -49,10 +67,71 @@ function PwdProfile(props) {
     onClose: onClose1,
   } = useDisclosure();
 
+  const {
+    isOpen: isOpen2,
+    onOpen: onOpen2,
+    onClose: onClose2,
+  } = useDisclosure();
+
   const sizes = ["xs", "sm", "md", "lg", "xl", "full"];
   const { colorMode, toggleColorMode } = useColorMode();
+  let navigate = useNavigate();
+  // FETCH USER DATA
+  const fetchUser = async () => {
+    let response = await api.get("/pwd/get_pwd_profile.php", {
+      params: { id: userid },
+    });
+
+    if (response) {
+      if (response.data[0].DISABILITY_TYPE === null) {
+        onOpen2();
+      } else {
+        let res = response.data[0];
+        setName(res.FIRSTNAME + " " + res.LASTNAME);
+        setAge(res.BIRTHDATE);
+        setAddress(
+          res.STREET + ", " + res.CITY + ", " + res.PROVINCE + ", " + res.ZIP
+        );
+        setBio(res.BIO);
+        setEmail(res.EMAIL_ADDRESS);
+        setContact(res.CONTACT_NUMBER);
+        setJobForId(res.DISABILITY_TYPE);
+
+        let resp = await api.get("/pwd/get_pwd_skills.php", {
+          params: { id: userid },
+        });
+
+        if (resp) {
+          // console.log(resp.data);
+          setSkills(resp.data);
+        }
+        onClose2();
+      }
+    }
+  };
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
+  function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
   return (
-    <div>
+    <Container maxW="container.xl">
       <Flex p="2" minWidth="max-content" alignItems="center" gap="2">
         <Box p="2">
           <Heading color="teal" size="md">
@@ -71,12 +150,11 @@ function PwdProfile(props) {
         <Spacer />
         <ButtonGroup gap="30">
           <Button
-            bg={"red.400"}
+            rightIcon={<FiLogOut />}
+            colorScheme="red"
             color={"white"}
             w="full"
-            _hover={{
-              bg: "red.500",
-            }}
+            onClick={logout}
           >
             Log out
           </Button>
@@ -101,7 +179,6 @@ function PwdProfile(props) {
           My Profile
         </Heading>
         <FormControl id="userName">
-          <FormLabel></FormLabel>
           <Flex pl="20" direction={["column", "row"]} spacing={6}>
             <Center>
               <Avatar
@@ -112,131 +189,85 @@ function PwdProfile(props) {
             <Spacer />
 
             <Box pt="15">
-              <Divider />
               <FormControl id="userName">
                 <FormLabel>
-                  Name:{" "}
-                  <Text lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
-                    Tuban, James Karl, C.
+                  Name:
+                  <Text lineHeight={1.1} fontSize={{ base: "2xl", sm: "1xl" }}>
+                    {name}
                   </Text>
                 </FormLabel>
                 <FormLabel>
                   Age:
-                  <Text lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
-                    20
+                  <Text lineHeight={1.1} fontSize={{ base: "2xl", sm: "1xl" }}>
+                    {getAge(age)}
                   </Text>
                 </FormLabel>
                 <FormLabel>
                   {" "}
                   Address:
-                  <Text lineHeight={1.1} fontSize={{ base: "2xl", sm: "3xl" }}>
-                    Guiwan, Zamboanga City.
+                  <Text lineHeight={1.1} fontSize={{ base: "2xl", sm: "1xl" }}>
+                    {address}
                   </Text>
                 </FormLabel>
-
                 <Button
-                  p="20px"
-                  bg={"teal.400"}
-                  color={"white"}
+                  mt={2}
                   w="full"
-                  _hover={{
-                    bg: "teal.500",
-                  }}
-                  onClick={onOpen}
+                  size="sm"
+                  leftIcon={<BsFillPencilFill />}
                 >
-                  Available Job
+                  Edit profile
                 </Button>
-
-                <Divider />
               </FormControl>
             </Box>
           </Flex>
         </FormControl>
-        <Center>
+        <Modal
+          isOpen={isOpen2}
+          size="5xl"
+          isCentered
+          position="absolute"
+          zIndex="-10"
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalBody>
+              <Pwdsignup />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
+
+        <Divider my={3} />
+        {bio === "" || bio === null ? (
+          <Button w="150px" size="sm">
+            + Add bio
+          </Button>
+        ) : (
           <Text fontStyle={"italic"}>
-            <Divider />
             Hi, I’m James and I’m a software engineer. My current focus is
             optimizing customer experience. Nice to meet you all. My name is
             Michael and I’m the creative director. I work in the Brooklyn
             office.
           </Text>
-        </Center>
+        )}
 
         <Flex align={"left"} justify={"left"} direction={"row"} mt={6}>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue("gray.50", "gray.800")}
-            fontWeight={"400"}
-            ml={10}
-          >
-            #art
-          </Badge>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue("gray.50", "gray.800")}
-            fontWeight={"400"}
-          >
-            #photography
-          </Badge>
-          <Badge
-            px={2}
-            py={1}
-            bg={useColorModeValue("gray.50", "gray.800")}
-            fontWeight={"400"}
-          >
-            #music
-          </Badge>
+          {skills.map((el) => {
+            return (
+              <>
+                <Badge
+                  px={2}
+                  py={1}
+                  fontWeight={"400"}
+                  mr={3}
+                  colorScheme="orange"
+                >
+                  #{el.SKILL_NAME.toUpperCase()}
+                </Badge>
+              </>
+            );
+          })}
         </Flex>
-        <Button
-          bg={"blue.400"}
-          color={"white"}
-          w="full"
-          _hover={{
-            bg: "blue.500",
-          }}
-          onClick={onOpen1}
-        >
-          Documents
-        </Button>
-        <FormControl>
-          <Divider />
-          <FormLabel>My Disability</FormLabel>
-          <Box colorScheme="f0f0f0" borderRadius="md" px={4}>
-            <FormControl id="userName">
-              <FormLabel>
-                Type of Disability<Text>Deaf hard of hearing</Text>
-              </FormLabel>
-              <FormLabel>
-                Type <Text>Autism</Text>
-              </FormLabel>
-            </FormControl>
-          </Box>
-        </FormControl>
-        <FormControl>
-          <Divider />
-          <FormLabel>Contact Information</FormLabel>
-          <Box colorScheme="f0f0f0" borderRadius="md" px={4}>
-            <FormControl id="userName">
-              <FormLabel>Email: Jtuban4@gmail.com</FormLabel>
-              <FormLabel>CP# : 09673890231</FormLabel>
-              <FormLabel>Landline:87000</FormLabel>
-            </FormControl>
-          </Box>
-        </FormControl>
-
-        <Stack spacing={6} direction={["column", "row"]} pb="20px">
-          <Button
-            bg={"red.400"}
-            color={"white"}
-            w="full"
-            _hover={{
-              bg: "red.500",
-            }}
-          >
-            Edit
-          </Button>
+        <HStack>
           <Button
             bg={"blue.400"}
             color={"white"}
@@ -244,21 +275,80 @@ function PwdProfile(props) {
             _hover={{
               bg: "blue.500",
             }}
+            onClick={onOpen1}
           >
-            Save
+            Documents
           </Button>
-        </Stack>
+          <Button
+            p="20px"
+            bg={"teal.400"}
+            color={"white"}
+            w="full"
+            _hover={{
+              bg: "teal.500",
+            }}
+            onClick={onOpen}
+          >
+            Available Jobs
+          </Button>
+        </HStack>
+        <Divider my={3} />
+        <Flex pb={10}>
+          <Box
+            w="50%"
+            bgColor="gray.100"
+            p={7}
+            mx="1"
+            borderRadius={5}
+            bg={useColorModeValue("white", "gray.900")}
+          >
+            <Text mb={2} fontWeight={600}>
+              SKILLS
+            </Text>
+            <Box colorScheme="f0f0f0" borderRadius="md" px={4}>
+              {skills.map((el) => {
+                return (
+                  <>
+                    <li>
+                      {el.SKILL_NAME.charAt(0).toUpperCase() +
+                        el.SKILL_NAME.slice(1).toLowerCase()}
+                    </li>
+                  </>
+                );
+              })}
+            </Box>
+          </Box>
+          <Spacer />
+          <Box
+            pb={10}
+            w="50%"
+            bgColor="gray.100"
+            p={7}
+            mx="1 "
+            bg={useColorModeValue("white", "gray.900")}
+          >
+            <Text textTransform="uppercase" fontWeight={600} mb={2}>
+              Contact Information
+            </Text>
+            <Box colorScheme="f0f0f0" borderRadius="md" px={4}>
+              <FormControl id="userName" mt={2}>
+                <FormLabel>Email: {email}</FormLabel>
+                <FormLabel>Contact number : {contact}</FormLabel>
+              </FormControl>
+            </Box>
+          </Box>
+        </Flex>
       </Stack>
 
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="xl">
         <DrawerOverlay />
         <DrawerContent>
           <DrawerCloseButton />
-          <DrawerHeader>My Job Available</DrawerHeader>
+          <DrawerHeader>Jobs Available</DrawerHeader>
 
           <DrawerBody>
-            <Input placeholder="Type here..." />
-            <Body_Jobpost />
+            {/* <Input placeholder="Type here..." /> */}
+            <JobSpecific jobForId={jobForId} />
           </DrawerBody>
 
           <DrawerFooter>
@@ -311,13 +401,12 @@ function PwdProfile(props) {
           </DrawerBody>
           <DrawerFooter>
             <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
+              Close
             </Button>
-            <Button colorScheme="blue">Save</Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
-    </div>
+    </Container>
   );
 }
 export default PwdProfile;

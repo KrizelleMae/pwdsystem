@@ -39,7 +39,7 @@ import {
 
 import AdminPwdComponents from "../components/AdminPwdComponents";
 import AdminCompanyComponents from "../components/AdminCompanyComponents";
-import Body_Jobpost from "../components/Body_Jobpost";
+import JobPost from "../components/JobPost";
 import { BsSun, BsMoonStarsFill } from "react-icons/bs";
 
 export default function ProfilePWD(props) {
@@ -299,7 +299,7 @@ export default function ProfilePWD(props) {
               {job.map((element, key) => {
                 return (
                   <>
-                    <Body_Jobpost
+                    <JobPost
                       title={element.TITTLE}
                       description={element.DESCRIPTION}
                       salary={element.SALARY}

@@ -17,7 +17,7 @@ import AdminDashboard from "./adminpages/AdminDashboard";
 import AdminSettings from "./adminpages/AdminSettings";
 import AdminReports from "./adminpages/AdminReports";
 
-import Body_Jobpost from "./components/Body_Jobpost";
+import JobPost from "./components/JobPost";
 import PwdProfile from "./components/PwdProfile";
 import AddJobPost from "./components/AddJobPost";
 import AdminPwdComponents from "./components/AdminPwdComponents";
@@ -80,10 +80,10 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/companysignup" element={<CompanySignup />} />
 
-          <Route path="/body_jobpost" element={<Body_Jobpost />} />
+          <Route path="/JobPost" element={<JobPost />} />
           <Route path="/pwdprofile" element={<PwdProfile />} />
           <Route path="/companyprofile" element={<CompanyProfile />} />
-          <Route path="/addjobpost" element={<AddJobPost />} />
+          <Route path="/companyprofile/addjobpost" element={<AddJobPost />} />
           <Route path="/adminpwdcomponets" element={<AdminPwdComponents />} />
           <Route path="/glogin" element={<Glogin />} />
           <Route path="/poplogin" element={<PopLogin />} />

@@ -16,3 +16,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.swal2-container {
+  z-index: X;
+}

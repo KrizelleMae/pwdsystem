@@ -23,7 +23,7 @@ import {
   Divider,
 } from "@chakra-ui/react";
 import "../css/navbar.css";
-import Body_Jobpost from "../components/Body_Jobpost";
+import JobPost from "../components/JobPost";
 import WatchVideo from "../components/WatchVideo";
 import Footer from "../components/Footer";
 import SendMessage from "../components/SendMessage";
@@ -34,6 +34,7 @@ import { BrowserRouter, Route, Redirect, redirect } from "react-router-dom";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import api from "../restapi/api";
 
 import { BsSun, BsMoonStarsFill } from "react-icons/bs";
 function Homepage(props) {
@@ -44,15 +45,8 @@ function Homepage(props) {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const [job, setJob] = useState([]);
-  const getJob = () => {
-    axios.get("http://localhost/pwd-backend/get_Job.php").then((response) => {
-      setJob(response.data);
-    });
-  };
 
-  useEffect(() => {
-    getJob();
-  }, [job]);
+  useEffect(() => {}, []);
 
   // const commands = [
   //   {
@@ -192,126 +186,12 @@ function Homepage(props) {
           </Flex>
         </Stack>
       </Container>
-      <Container maxW={"100%"} bg={"gray.300"}>
-        <VStack>
-          <Stack maxW={"100%"} spacing="5px">
-            <Text
-              className="nav-items"
-              color={"gray.600"}
-              align={"center"}
-              pt="50px"
-              pb="50px"
-              fontSize={"20px"}
-            >
-              Job Post
-            </Text>
-            <Wrap className="content">
-              <Box>
-                <Select placeholder="Job type" w="*px">
-                  <ption value="option1">Permanent</ption>
-                  <option value="option2">Seasonal</option>
-                  <option value="option3">Casualt</option>
-                  <option value="option4">Emergency</option>
-                </Select>
-              </Box>
-              <Box>
-                <Select placeholder="Company" w="*px">
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
-                </Select>
-              </Box>
-              <Box float="right">
-                <Input
-                  placeholder="Search"
-                  w="*px"
-                  color={"black"}
-                  pl="3"
-                  bg={"white"}
-                />
-              </Box>
-            </Wrap>
-          </Stack>
-          {/* {user.map((el) => {
-                    return (
-                        <> 
-                        <Tr><Td>{el.email}</Td>
-                            <Td>{el.password}</Td></Tr>
-                            
-                        </>
-                    )
-                })} */}
-          <Wrap>
-            <Container justify="center">
-              {job.map((element, key) => {
-                return (
-                  <>
-                    <Body_Jobpost
-                      title={element.TITLE}
-                      company_id={element.COMPANY_ID}
-                      description={element.DESCRIPTION}
-                      salary={element.SALARY}
-                    />
-                  </>
-                );
-              })}
-              <Center>
-                <Stack direction={["column", "row"]} spacing="24px" pb="20px">
-                  <Box>
-                    <Button
-                      size={"lg"}
-                      px={9}
-                      colorScheme={"red"}
-                      bg={"orange"}
-                      color="white"
-                      _hover={{ bg: "green.500" }}
-                      boxShadow="lg"
-                      p="6"
-                    >
-                      1
-                    </Button>
-                  </Box>
-                  <Button
-                    size={"lg"}
-                    px={9}
-                    colorScheme={"red"}
-                    bg={"gray"}
-                    color="white"
-                    _hover={{ bg: "green.500" }}
-                    boxShadow="lg"
-                    p="6"
-                    ml={"60px"}
-                  >
-                    2
-                  </Button>
-                  <Button
-                    size={"lg"}
-                    px={9}
-                    colorScheme={"red"}
-                    bg={"gray"}
-                    color="white"
-                    _hover={{ bg: "green.500" }}
-                    boxShadow="lg"
-                    p="6"
-                    ml={"60px"}
-                  >
-                    3
-                  </Button>
-                </Stack>
-              </Center>
-            </Container>
 
-            <WrapItem>
-              <Container
-                mt="50px"
-                h="500px"
-                w="500px"
-                bg="gray.200"
-              ></Container>
-            </WrapItem>
-          </Wrap>
-        </VStack>
+      {/* JOB POST */}
+      <Container>
+        <JobPost />
       </Container>
+
       <Center>
         <Container bg={"gray.300"} maxW={"100%"} py={10}>
           <Divider w="60%" p={4} />

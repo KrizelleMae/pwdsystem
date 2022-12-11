@@ -6,30 +6,32 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
-  ModalFooter,
   Button,
-  AspectRatio,
   useDisclosure,
   Flex,
   Box,
   FormControl,
   FormLabel,
   Input,
-  Checkbox,
   Stack,
   Link,
   Heading,
   Text,
   useColorModeValue,
   useColorMode,
+  useToast,
 } from "@chakra-ui/react";
 
 import Sample from "../images/sample.mp4";
 import Glogin from "./Glogin";
 import { BsSun, BsMoonStarsFill } from "react-icons/bs";
+import api from "../restapi/api";
+import { useNavigate } from "react-router-dom";
 
 function PopLogin(props) {
   const { colorMode, toggleColorMode } = useColorMode();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const bgcolor = useColorModeValue("teal.400", "whiteAlpha.50");
   const fontcolor = useColorModeValue("gray.50", "white");
@@ -43,6 +45,44 @@ function PopLogin(props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [overlay, setOverlay] = React.useState(<OverlayOne />);
 
+  let toast = useToast();
+  let navigate = useNavigate();
+
+  const login = async (e) => {
+    e.preventDefault();
+
+    let response = await api.post("/login.php", {
+      email: email,
+      password: password,
+    });
+
+    if (response.data.status === 1) {
+      // SUCCESS LOGIN
+      localStorage.setItem("id", response.data.id);
+      if (response.data.role === 3) {
+        navigate("/companyprofile");
+      } else if (response.data.role === 2) {
+        navigate("/pwdprofile");
+      }
+    } else if (response.data.status === 2) {
+      // EMAIL DOES NOT EXIST
+      toast({
+        position: "top",
+        title: "Email does not exist",
+        variant: "top-accent",
+        isClosable: true,
+        status: "warning",
+      });
+    } else {
+      toast({
+        position: "top",
+        title: "Invalid password",
+        variant: "top-accent",
+        isClosable: true,
+        status: "error",
+      });
+    }
+  };
   return (
     <div>
       <Button
@@ -64,7 +104,7 @@ function PopLogin(props) {
       <Modal p="0" isCentered isOpen={isOpen} size="xl" onClose={onClose}>
         {overlay}
         <ModalContent>
-          <ModalHeader>Login</ModalHeader>
+          <ModalHeader></ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Stack mx={"auto"}>
@@ -87,17 +127,27 @@ function PopLogin(props) {
               <Box
                 rounded={"lg"}
                 bg={useColorModeValue("white", "gray.700")}
-                boxShadow={"lg"}
-                p={8}
+                py={14}
+                px={10}
               >
-                <Stack>
-                  <FormControl id="email">
+                <form onSubmit={login}>
+                  <FormControl id="email" isRequired>
                     <FormLabel>Email address</FormLabel>
-                    <Input type="email" />
+                    <Input
+                      type="email"
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                      }}
+                    />
                   </FormControl>
-                  <FormControl id="password">
+                  <FormControl id="password" isRequired>
                     <FormLabel>Password</FormLabel>
-                    <Input type="password" />
+                    <Input
+                      type="text"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                      }}
+                    />
                   </FormControl>
                   <Stack spacing={10}>
                     <Stack
@@ -108,22 +158,16 @@ function PopLogin(props) {
                       <Link href="" color={"blue.400"}>
                         Forgot password?
                       </Link>
-                      <Link href="Loginas" color={"blue.400"}>
+                      <Link href="/Signup" color={"blue.400"}>
                         Create Account
                       </Link>
                     </Stack>
                     <Glogin />
-                    <Button
-                      bg={"blue.400"}
-                      color={"white"}
-                      _hover={{
-                        bg: "blue.500",
-                      }}
-                    >
+                    <Button colorScheme="blue" type="submit">
                       Sign in
                     </Button>
                   </Stack>
-                </Stack>
+                </form>
               </Box>
             </Stack>
           </ModalBody>

@@ -1,3 +1,7 @@
 * {
   font-family: "Helvetica";
 }
+
+.swal2-container {
+  z-index: 10000;
+}

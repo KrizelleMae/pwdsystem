@@ -20,6 +20,7 @@ import NewLogin from "./NewLogin";
 import CompanySignup from "./CompanySignup";
 
 import PwdSignup from "./Pwdsignup";
+import PwdRegistration from "./PwdRegistration";
 const SignupAs = () => {
   return (
     <Tabs isFitted variant="soft-rounded">
@@ -29,7 +30,7 @@ const SignupAs = () => {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <PwdSignup />
+          <PwdRegistration />
         </TabPanel>
         <TabPanel>
           <CompanySignup />
