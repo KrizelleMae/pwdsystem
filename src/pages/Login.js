@@ -19,14 +19,8 @@ import {
 } from "@chakra-ui/react";
 
 import "../css/login.css";
-
 import NewLogin from "../components/NewLogin";
-
-import { FcGoogle } from "react-icons/fc";
-import { FaFacebookF } from "react-icons/fa";
 import api from "../restapi/api";
-import axios from "axios";
-
 import React, { useEffect, useState } from "react";
 
 const clientId =

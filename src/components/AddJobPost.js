@@ -95,7 +95,7 @@ function AddJobPost(props) {
   }, []);
 
   return (
-    <Container p={20} maxW="container.4xl">
+    <Container p={8} maxW="container.4xl">
       <Flex alignItems="center" justifyContent="space-between">
         <Button
           onClick={() => {
@@ -106,11 +106,11 @@ function AddJobPost(props) {
         >
           Back to Company profile
         </Button>{" "}
-        <Heading>New Job Post</Heading>
+        <Heading fontSize={23}>New Job Post</Heading>
       </Flex>
 
       <form onSubmit={postJob}>
-        <Flex mt={20}>
+        <Flex mt={12}>
           <Box mr={10} w="35%">
             <FormControl isRequired>
               <FormLabel fontWeight={600}>Job Title</FormLabel>

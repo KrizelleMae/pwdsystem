@@ -188,9 +188,17 @@ function Homepage(props) {
       </Container>
 
       {/* JOB POST */}
-      <Container>
+      <Box m={10}>
+        <Center mb={10}>
+          <Heading>All Jobs</Heading>
+        </Center>
         <JobPost />
-      </Container>
+
+        <Box textAlign="center" mt={3}>
+          {" "}
+          <Link>View more jobs {">>>>"}</Link>
+        </Box>
+      </Box>
 
       <Center>
         <Container bg={"gray.300"} maxW={"100%"} py={10}>

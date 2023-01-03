@@ -43,6 +43,8 @@ import Features from "./components/Features";
 import ViewApplicants from "./components/ViewApplicants";
 import Checkbox from "./components/Checkbox";
 import Uploadfile from "./components/Uploadfile";
+import Documents from "./components/Documents";
+import Dashboard from "./pages/Admin/Dashboard";
 function App() {
   // const commands = [
   //   {
@@ -82,7 +84,7 @@ function App() {
 
           <Route path="/JobPost" element={<JobPost />} />
           <Route path="/pwdprofile" element={<PwdProfile />} />
-          <Route path="/companyprofile" element={<CompanyProfile />} />
+          <Route path="/companyprofile" element={<Dashboard />} />
           <Route path="/companyprofile/addjobpost" element={<AddJobPost />} />
           <Route path="/adminpwdcomponets" element={<AdminPwdComponents />} />
           <Route path="/glogin" element={<Glogin />} />
@@ -105,8 +107,8 @@ function App() {
           <Route path="/newlogin" element={<NewLogin />} />
           <Route path="/features" element={<Features />} />
           <Route path="/viewapplicants" element={<ViewApplicants />} />
-          <Route path="/checkbox" element={<Checkbox />} />
-          <Route path="/uploadfile" element={<Uploadfile />} />
+
+          <Route path="/pwdprofile/documents" element={<Documents />} />
 
           {/* {redirect} */}
         </Routes>

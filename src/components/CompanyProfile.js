@@ -1,5 +1,24 @@
-import { Box, Button, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  Container,
+  Divider,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import React, { useState, useEffect } from "react";
+import {
+  BiLocationPlus,
+  BiMapPin,
+  BiMessage,
+  BiMessageDetail,
+  BiVoicemail,
+} from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import api from "../restapi/api";
 import AddJobPost from "./AddJobPost";
@@ -31,18 +50,24 @@ function CompanyProfile(props) {
     if (response) {
       setFirstname(response.data[0].REP_FIRSTNAME);
       setCompanyId(response.data[0].COMPANY_ID);
+      setCompanyName(response.data[0].COMPANY_NAME);
+      setEmail(response.data[0].COMPANY_EMAIL);
+      setTelNum(response.data[0].TEL_NUMBER);
+      setAddress(response.data[0].COMPANY_ADDRESS);
     }
+
+    console.log(response);
   };
 
-  const fetchJobs = async () => {
-    let response = await api.get("/get_jobs.php", {
-      params: { companyId: companyId },
-    });
+  // const fetchJobs = async () => {
+  //   let response = await api.get("/get_jobs.php", {
+  //     params: { companyId: companyId },
+  //   });
 
-    if (response) {
-      setJobs(response.data);
-    }
-  };
+  //   if (response) {
+  //     setJobs(response.data);
+  //   }
+  // };
 
   const logout = () => {
     localStorage.clear();
@@ -51,31 +76,63 @@ function CompanyProfile(props) {
 
   useEffect(() => {
     fetchUser();
-    fetchJobs();
-  }, [companyId]);
+    // fetchJobs();
+  }, []);
+
   return (
-    <div>
-      Account name: {firstname} <br />
-      COMPANY ID: {companyId}
-      <Button onClick={logout}>Logout</Button>
-      <Box>
-        <Button
-          onClick={() => navigate(`/companyprofile/addjobpost?id=${companyId}`)}
-        >
-          Add job post
-        </Button>
-      </Box>
-      <Box>
-        <Text mt={10}>Job Lists</Text>
-        {jobs.map((el) => {
-          return (
-            <>
-              <li>{el.TITLE}</li>
-            </>
-          );
-        })}
-      </Box>
-    </div>
+    <>
+      <Container maxW="container.xl">
+        <Flex alignItems="center">
+          <Box>
+            <Image
+              borderRadius="full"
+              boxSize="200px"
+              src="gibbresh.png"
+              fallbackSrc="https://via.placeholder.com/150"
+            />
+          </Box>
+          <Box ml={10}>
+            <Stack>
+              <Text fontSize={26} fontWeight={700} textTransform="uppercase">
+                {companyName}
+              </Text>
+              <Divider />
+              <Text
+                fontSize={15}
+                fontWeight={400}
+                mt={2}
+                display="flex"
+                alignItems="center"
+              >
+                <BiMapPin pr={3} />
+                &nbsp; {address}
+              </Text>
+              <Text
+                fontSize={15}
+                fontWeight={400}
+                display="flex"
+                alignItems="center"
+              >
+                <BiMessage pr={4} /> &nbsp; {email} | {telNum}
+              </Text>
+
+              <Button
+                colorScheme="green"
+                rounded="full"
+                size="sm"
+                variant="outline"
+                onClick={() => {
+                  navigate("/companyprofile/addjobpost");
+                }}
+              >
+                + Post job
+              </Button>
+            </Stack>
+          </Box>
+          {/* Account name: {firstname} <br /> */}
+        </Flex>
+      </Container>
+    </>
   );
 }
 

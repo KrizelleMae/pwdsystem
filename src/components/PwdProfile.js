@@ -35,6 +35,7 @@ import {
   Container,
   List,
   HStack,
+  Link,
 } from "@chakra-ui/react";
 import {
   BsSun,
@@ -49,6 +50,7 @@ import Pwdsignup from "./Pwdsignup";
 import api from "../restapi/api";
 import { FiLogOut } from "react-icons/fi";
 import { Navigate, useNavigate } from "react-router-dom";
+import Documents from "./Documents";
 
 function PwdProfile(props) {
   const [userid, setUserid] = useState(localStorage.getItem("id"));
@@ -269,15 +271,16 @@ function PwdProfile(props) {
         </Flex>
         <HStack>
           <Button
+            as={Link}
             bg={"blue.400"}
             color={"white"}
             w="full"
             _hover={{
               bg: "blue.500",
             }}
-            onClick={onOpen1}
+            href="/pwdprofile/documents"
           >
-            Documents
+            My Documents
           </Button>
           <Button
             p="20px"
@@ -356,53 +359,6 @@ function PwdProfile(props) {
               Cancel
             </Button>
             <Button colorScheme="blue">Save</Button>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-
-      <Drawer placement="left" onClose={onClose1} isOpen={isOpen1}>
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerHeader borderBottomWidth="1px">
-            My Documents
-            <Button
-              colorScheme="teal"
-              variant="outline"
-              ml={8}
-              onClick={onClose}
-            >
-              Add File
-            </Button>
-          </DrawerHeader>
-          <DrawerBody>
-            <VStack>
-              <Image
-                src="gibbresh.png"
-                fallbackSrc="https://via.placeholder.com/150"
-              />
-              <Checkbox defaultChecked value="Resume">
-                Resume
-              </Checkbox>
-              <Image
-                src="gibbresh.png"
-                fallbackSrc="https://via.placeholder.com/150"
-              />
-              <Checkbox defaultChecked value="CV">
-                CV
-              </Checkbox>
-              <Image
-                src="gibbresh.png"
-                fallbackSrc="https://via.placeholder.com/150"
-              />
-              <Checkbox defaultChecked value="Cert">
-                Certivficattes
-              </Checkbox>
-            </VStack>
-          </DrawerBody>
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Close
-            </Button>
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
