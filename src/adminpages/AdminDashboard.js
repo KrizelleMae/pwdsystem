@@ -27,35 +27,42 @@ export default function Home() {
     getCount();
   }, [data]);
   return (
-    <div>
-      <Center>
-        <Box w={1000} minW={200} ml="20%">
-          <Sidebar />
+    <Center>
+      <Box ml="20%">
+        <Sidebar />
 
-          <SimpleGrid
-            bg="gray.50"
-            columns={{ sm: 2, md: 4 }}
-            spacing="8"
-            p="10"
-            textAlign="center"
-            rounded="lg"
-            color="gray.400"
-          >
-            {data.map((el, key) => {
-              return (
-                <>
-                  <Box boxShadow="md" p="50" rounded="md" bg="white">
-                    <Text>{el.value}</Text>
-                    <Text fontSize="50px" color="Yellow">
-                      {el}
-                    </Text>
-                  </Box>
-                </>
-              );
-            })}
-          </SimpleGrid>
-        </Box>
-      </Center>
-    </div>
+        <SimpleGrid
+          spacing="8"
+          p="10"
+          textAlign="center"
+          rounded="lg"
+          color="gray.400"
+          w="100%"
+          display="flex"
+        >
+          <Box boxShadow="md" p="30" rounded="md" bg="white" w={300}>
+            <Text>AVIALABLE JOBS</Text>
+            <Text fontSize="50px" color="Yellow">
+              {data.jobs}
+            </Text>
+            ;
+          </Box>
+
+          <Box boxShadow="md" p="30" rounded="md" bg="white" w={300}>
+            <Text>COMPANY</Text>
+            <Text fontSize="50px" color="Yellow">
+              {data.company}
+            </Text>
+          </Box>
+
+          <Box boxShadow="md" p="30" rounded="md" bg="white" w={300}>
+            <Text>PWDs</Text>
+            <Text fontSize="50px" color="Yellow">
+              {data.pwd}
+            </Text>
+          </Box>
+        </SimpleGrid>
+      </Box>
+    </Center>
   );
 }
