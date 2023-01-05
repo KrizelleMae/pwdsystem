@@ -20,6 +20,8 @@ import {
   Td,
   Stack,
   Button,
+  useToast,
+  Badge,
 } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -28,32 +30,53 @@ import { BiShow } from "react-icons/bi";
 import AdminPwdComponents from "../components/AdminPwdComponents";
 import AdminCompanyComponents from "../components/AdminCompanyComponents";
 import AddJobPost from "../components/AddJobPost";
+import api from "../restapi/api";
 
 export default function Home() {
-  const [user, setUser] = useState([]);
-
-  const getUsers = () => {
+  const [company, setCompany] = useState([]);
+  const getCompany = () => {
     axios
-      .get("http://localhost/pwd-backend/get_company.php")
+      .get("http://localhost/pwd-backend/API/get_company.php")
       .then((response) => {
-        setUser(response.data);
+        setCompany(response.data);
       });
   };
 
-  useEffect(() => {
-    getUsers();
-  }, [user]);
-
   const [job, setJob] = useState([]);
-  const getJobs = () => {
-    axios.get("http://localhost/pwd-backend/get_job.php").then((response) => {
-      setJob(response.data);
+  let toast = useToast();
+  const getJob = () => {
+    axios
+      .get("http://localhost/pwd-backend/API/get_jobs.php")
+      .then((response) => {
+        setJob(response.data);
+      });
+  };
+
+  const accept = async (value) => {
+    let response = await api.post("/admin/verify_account.php", {
+      jobId: value,
     });
+    if (response.data.status === 1) {
+      toast({
+        title: "Success.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Error.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
   };
 
   useEffect(() => {
-    getJobs();
-  }, [job]);
+    getJob();
+    getCompany();
+  }, [job, company]);
 
   return (
     <div>
@@ -76,7 +99,7 @@ export default function Home() {
                     <HStack>
                       <Heading pb={50}>List of Company</Heading>
                       <Spacer />
-                      <AddJobPost />
+                      {/* <AddJobPost /> */}
                     </HStack>
 
                     <Table bordered hover responsive colorScheme={"teal.200"}>
@@ -85,43 +108,43 @@ export default function Home() {
                         <Th> Name</Th>
                         <Th> Representative</Th>
                         <Th> Email</Th>
-                        <Th> Actions</Th>
+                        {/* <Th> Actions</Th> */}
                       </Thead>
                       <Tbody>
-                        {user.map((el) => {
+                        {company.map((el) => {
                           return (
                             <>
                               <Tr>
                                 <Td>{el.COMPANY_ID}</Td>
                                 <Td>{el.COMPANY_NAME}</Td>
-                                <Td>{el.REP_NAME}</Td>
+                                <Td>{el.REP_FIRSTNAME}</Td>
                                 <Td>{el.COMPANY_EMAIL}</Td>
-                                <Td>
+                                {/* <Td>
                                   <Stack direction="row">
-                                    <Button
+                                    {/* <Button
                                       leftIcon={<AiFillEdit />}
                                       colorScheme="teal"
                                       variant="outline"
                                     >
                                       Edit
-                                    </Button>
-                                    <Button
-                                      leftIcon={<BiShow />}
-                                      colorScheme="teal"
-                                      variant="outline"
-                                    >
-                                      View
-                                    </Button>
-
-                                    {/* <Button
+                                    </Button> 
+                                <Button
+                                  leftIcon={<BiShow />}
+                                  colorScheme="teal"
+                                  variant="outline"
+                                >
+                                  Accept
+                                </Button>
+                                */}
+                                {/* <Button
                     rightIcon={<GrView/>}
                     colorScheme="teal"
                     variant="outline"
                   >
                     veiw
                   </Button> */}
-                                  </Stack>
-                                </Td>
+                                {/* </Stack>
+                                </Td> */}
                               </Tr>
                             </>
                           );
@@ -132,79 +155,61 @@ export default function Home() {
                   <Box w="full" boxShadow="md" p="50" rounded="md" bg="white">
                     <HStack>
                       <Heading pb={50}>Job List</Heading>
-                      <Spacer />
-                      <AddJobPost />
                     </HStack>
 
-                    <Table colorScheme={"teal.200"}>
+                    <Table variant="simple" colorScheme="teal.700">
                       <Thead>
-                        <Th>ID</Th>
+                        <Th>Company</Th>
                         <Th> Job Name</Th>
-                        <Th> Salary</Th>
                         <Th> Status</Th>
                         <Th> Actions</Th>
                       </Thead>
                       <Tbody>
-                        {job.map((el) => {
-                          let color =
-                            job.STATUS == "ACTIVE"
-                              ? "GREEN"
-                              : job.STATUS == "INACTIVE"
-                              ? "yellow"
-                              : "ORANGE";
-
+                        {job.map((e) => {
                           return (
-                            <>
-                              <Tr>
-                                <Td>{el.id}</Td>
-                                <Td>{el.TITLE}</Td>
-                                <Td>{el.SALARY}</Td>
-
-                                <Td style={{ backgroundColor: color }}>
-                                  {job.STATUS}
-                                  {el.STATUS}
-                                </Td>
-
-                                <Td>
-                                  <Stack direction="row">
-                                    <Button
-                                      leftIcon={<AiFillEdit />}
-                                      colorScheme="teal"
-                                      variant="outline"
-                                    >
-                                      Edit
-                                    </Button>
-                                    <Button
-                                      leftIcon={<BiShow />}
-                                      colorScheme="teal"
-                                      variant="outline"
-                                    >
-                                      View
-                                    </Button>
-
-                                    {/* <Button
-                    rightIcon={<GrView/>}
-                    colorScheme="teal"
-                    variant="outline"
-                  >
-                    veiw
-                  </Button> */}
-                                  </Stack>
-                                </Td>
-                              </Tr>
-                            </>
+                            <Tr>
+                              <Td>{e.COMPANY_NAME}</Td>
+                              <Td>{e.TITLE}</Td>
+                              <Td>
+                                <Badge
+                                  colorScheme={
+                                    e.STATUS === "ACTIVE" ? "green" : "orange"
+                                  }
+                                >
+                                  {e.STATUS}
+                                </Badge>
+                              </Td>
+                              <Td>
+                                <Button
+                                  leftIcon={<AiFillEdit />}
+                                  colorScheme="teal"
+                                  variant="outline"
+                                >
+                                  View
+                                </Button>{" "}
+                                <Button
+                                  leftIcon={<BiShow />}
+                                  colorScheme="teal"
+                                  variant="outline"
+                                  onClick={() => {
+                                    accept(e.JOB_ID);
+                                  }}
+                                >
+                                  Accept
+                                </Button>
+                              </Td>
+                            </Tr>
                           );
                         })}
                       </Tbody>
                     </Table>
                   </Box>
-                  <Box boxShadow="md" p="50" rounded="md" bg="white"></Box>
+                  {/* <Box boxShadow="md" p="50" rounded="md" bg="white"></Box> */}
                 </SimpleGrid>
               </Box>
             </Center>
           </Flex>
           PWD
-          <Flex></Flex>
         </VStack>
       </Flex>
     </div>

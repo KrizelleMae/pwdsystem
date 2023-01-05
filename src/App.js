@@ -21,7 +21,6 @@ import JobPost from "./components/JobPost";
 import PwdProfile from "./components/PwdProfile";
 import AddJobPost from "./components/AddJobPost";
 import AdminPwdComponents from "./components/AdminPwdComponents";
-import CompanyProfile from "./components/CompanyProfile";
 import WatchVideo from "./components/WatchVideo";
 import Glogin from "./components/Glogin";
 import PopLogin from "./components/PopLogin";
@@ -33,7 +32,6 @@ import Navigation from "./components/Navigation";
 import Top_Navigation from "./components/Top_Navigation";
 import CompanySignup from "./components/CompanySignup";
 import SignupAs from "./components/SignupAs";
-import { BrowserRouter } from "react-router-dom";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -41,10 +39,9 @@ import Sample from "./pages/Sample";
 import NewLogin from "./components/NewLogin";
 import Features from "./components/Features";
 import ViewApplicants from "./components/ViewApplicants";
-import Checkbox from "./components/Checkbox";
-import Uploadfile from "./components/Uploadfile";
 import Documents from "./components/Documents";
-import Dashboard from "./pages/Admin/Dashboard";
+import Dashboard from "./pages/Company/Dashboard";
+import AdminHome from "./pages/AdminHome";
 function App() {
   // const commands = [
   //   {
@@ -92,12 +89,13 @@ function App() {
           <Route path="/nav" element={<Navigation />} />
           <Route path="/Top_navigation" element={<Top_Navigation />} />
 
-          <Route path="/admin" element={<Admin />} />
+          {/* <Route path="/admin" element={<AdminHome />} /> */}
           <Route path="/admincompany" element={<AdminCompany />} />
           <Route path="/admindashboard" element={<AdminDashboard />} />
           <Route path="/adminpwd" element={<AdminPwd />} />
           <Route path="/adminsettings" element={<AdminSettings />} />
           <Route path="/adminReports" element={<AdminReports />} />
+
           <Route path="/watchVideo" element={<WatchVideo />} />
           <Route path="/profilePWD" element={<ProfilePWD />} />
           <Route path="/contactform" element={<Contactform />} />

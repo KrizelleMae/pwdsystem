@@ -71,32 +71,35 @@ function Homepage(props) {
     <div id="target">
       <Top_Navigation />
       <Container bg={bgcolor} maxW={"100%"}>
-        <Button
-          mt="55px"
-          position="fixed"
-          aria-label="Toggle Color Mode"
-          onClick={toggleColorMode}
-          _focus={{ boxShadow: "none" }}
-          {...props}
-        >
-          {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
-        </Button>
-        <Button
-          mt="100px"
-          position="fixed"
-          aria-label="Toggle Color Mode"
-          onClick={() => setFontSize(fontSize + 5)}
-        >
-          A+
-        </Button>
-        <Button
-          mt="145px"
-          position="fixed"
-          aria-label="Toggle Color Mode"
-          onClick={() => setFontSize(fontSize - 5)}
-        >
-          A-
-        </Button>
+        <Box position="abolute" zIndex={40}>
+          <Button
+            mt="55px"
+            position="fixed"
+            aria-label="Toggle Color Mode"
+            onClick={toggleColorMode}
+            _focus={{ boxShadow: "none" }}
+            {...props}
+          >
+            {colorMode === "light" ? <BsMoonStarsFill /> : <BsSun />}
+          </Button>
+          <Button
+            mt="100px"
+            position="fixed"
+            aria-label="Toggle Color Mode"
+            onClick={() => setFontSize(fontSize + 5)}
+          >
+            A+
+          </Button>
+          <Button
+            mt="145px"
+            position="fixed"
+            aria-label="Toggle Color Mode"
+            onClick={() => setFontSize(fontSize - 5)}
+          >
+            A-
+          </Button>
+        </Box>
+
         <Stack
           align={"center"}
           spacing={{ base: 8, md: 10 }}
@@ -129,7 +132,7 @@ function Homepage(props) {
               </div> */}
             </Heading>
 
-            <div id="target">
+            <Box id="target">
               <p className="content">
                 <Text fontSize={fontSize} px>
                   "AN AMAZING INITIATIVE THAT ENABLES PEOPLE TO GET IN DIRECT
@@ -138,7 +141,7 @@ function Homepage(props) {
                   EXPERIENCE."
                 </Text>
               </p>
-            </div>
+            </Box>
             <Stack
               ml="10%"
               spacing={{ base: 4, sm: 6 }}

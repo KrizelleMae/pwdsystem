@@ -59,16 +59,6 @@ function CompanyProfile(props) {
     console.log(response);
   };
 
-  // const fetchJobs = async () => {
-  //   let response = await api.get("/get_jobs.php", {
-  //     params: { companyId: companyId },
-  //   });
-
-  //   if (response) {
-  //     setJobs(response.data);
-  //   }
-  // };
-
   const logout = () => {
     localStorage.clear();
     navigate("/");

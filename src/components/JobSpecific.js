@@ -8,15 +8,8 @@ import {
   Heading,
   Avatar,
   Stack,
-  Center,
-  useColorModeValue,
   Badge,
-  Wrap,
-  Select,
-  Input,
-  Flex,
   VStack,
-  Toast,
   useToast,
 } from "@chakra-ui/react";
 import kcc from "../images/kcc.png";
@@ -30,6 +23,10 @@ function Body_Jobpost(props) {
   const [list, setList] = useState([]);
 
   const [fontSize, setFontSize] = useState(16);
+  const [userId, setUserId] = useState(localStorage.getItem("id"));
+  const [pwdId, setPwdId] = useState("");
+  const [verified, setVerified] = useState("");
+  const [companyId, setCompanyId] = useState("");
 
   const fetchJobs = async () => {
     let response = await api.get("/pwd/get_pwd_jobs.php", {
@@ -38,12 +35,62 @@ function Body_Jobpost(props) {
 
     if (response) {
       setList(response.data);
+      setCompanyId(response.data[0].FK_COMPANY_ID);
+    }
+  };
+
+  const getData = async () => {
+    let response = await api.get("/pwd/get_pwd_profile.php", {
+      params: { id: userId },
+    });
+
+    setPwdId(response.data[0].PWD_ID);
+    setVerified(response.data[0].VERIFIED);
+  };
+
+  const apply = async (e) => {
+    // e.preventDefault();
+
+    if (verified === 1) {
+      let response = await api.post("/pwd/post_application.php", {
+        userId: props.userId,
+        jobId: e,
+        companyId: companyId,
+      });
+
       console.log(response.data);
+
+      if (response.data.status === 1) {
+        toast({
+          title: "Job Applied.",
+          // description: "Wait.",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error.",
+          description: response.data.message,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    } else {
+      toast({
+        title: "Account not verified",
+        description: "Kindly upload your ID to be verified. ",
+        status: "warning",
+        duration: 2000,
+        isClosable: true,
+      });
     }
   };
 
   useEffect(() => {
     fetchJobs();
+    getData();
   }, []);
 
   return (
@@ -145,13 +192,7 @@ function Body_Jobpost(props) {
                           bg: "blue.500",
                         }}
                         onClick={() => {
-                          toast({
-                            title: "Application Send.",
-                            description: "The company has been notified!",
-                            status: "success",
-                            duration: 3000,
-                            isClosable: true,
-                          });
+                          apply(el.JOB_ID);
                         }}
                       >
                         Apply

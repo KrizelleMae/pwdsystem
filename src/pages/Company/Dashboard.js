@@ -15,10 +15,10 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { BiUser } from "react-icons/bi";
+import { BiLogOut, BiLogOutCircle, BiUser } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import CompanyProfile from "../../components/CompanyProfile";
-import CompanySidebar from "../../components/CompanySidebar";
+import Applications from "../../components/Company/Applications";
 import api from "../../restapi/api";
 
 function Dashboard(props) {
@@ -41,6 +41,11 @@ function Dashboard(props) {
   const [jobs, setJobs] = useState([]);
 
   let navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
 
   const fetchUser = async () => {
     let response = await api.get("/company/get_company_profile.php", {
@@ -86,6 +91,19 @@ function Dashboard(props) {
               <Tab px={20}>Overview</Tab>
               <Tab px={20}>Jobs</Tab>
               <Tab px={20}>Application</Tab>
+              <Spacer />
+              <Tab py={0}>
+                <Button
+                  size="sm"
+                  colorScheme="red"
+                  onClick={logout}
+                  rightIcon={
+                    <BiLogOutCircle style={{ transform: "rotate(180deg)" }} />
+                  }
+                >
+                  Logout
+                </Button>
+              </Tab>
             </TabList>
             <TabPanels>
               <TabPanel p={0} mt={5}>
@@ -93,7 +111,7 @@ function Dashboard(props) {
                   <HStack>
                     <Box>
                       <Text>
-                        Website Link: <Link>{website}</Link>{" "}
+                        Website Link: <Link href={website}>{website}</Link>{" "}
                       </Text>
                       <Text
                         mt={10}
@@ -146,7 +164,7 @@ function Dashboard(props) {
               {/* APPLICATIONS */}
               <TabPanel p={0} mt={5}>
                 <Box bg="gray.50" borderRadius={5} p={9} h={500}>
-                  Application here
+                  <Applications companyId={companyId} />
                 </Box>
               </TabPanel>
             </TabPanels>

@@ -11,9 +11,6 @@ export default function Home() {
         <Sidebar />
         <VStack p="20px" w="100%">
           <Flex>
-            <AddJobPost />
-          </Flex>
-          <Flex>
             <AdminCompanyComponents />
           </Flex>
         </VStack>

@@ -67,9 +67,9 @@ export default function Sidebar() {
         <Link href="AdminPwd">
           <NavItem navSize={navSize} icon={FiUser} title="PWD" />
         </Link>
-        <Link href="AdminReports">
+        {/* <Link href="AdminReports">
           <NavItem navSize={navSize} icon={FiBriefcase} title="Reports" />
-        </Link>
+        </Link> */}
         <Link href="AdminSettings">
           <NavItem navSize={navSize} icon={FiSettings} title="Settings" />
         </Link>

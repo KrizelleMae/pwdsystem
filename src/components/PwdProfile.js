@@ -36,6 +36,11 @@ import {
   List,
   HStack,
   Link,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
 } from "@chakra-ui/react";
 import {
   BsSun,
@@ -51,6 +56,7 @@ import api from "../restapi/api";
 import { FiLogOut } from "react-icons/fi";
 import { Navigate, useNavigate } from "react-router-dom";
 import Documents from "./Documents";
+import JobApplied from "./PWD/JobApplied";
 
 function PwdProfile(props) {
   const [userid, setUserid] = useState(localStorage.getItem("id"));
@@ -172,6 +178,8 @@ function PwdProfile(props) {
         rounded={"xl"}
         boxShadow={"lg"}
         px={20}
+        mb={20}
+        pb={10}
       >
         <Heading
           pt="20px"
@@ -237,7 +245,6 @@ function PwdProfile(props) {
             </ModalBody>
           </ModalContent>
         </Modal>
-
         <Divider my={3} />
         {bio === "" || bio === null ? (
           <Button w="150px" size="sm">
@@ -251,7 +258,6 @@ function PwdProfile(props) {
             office.
           </Text>
         )}
-
         <Flex align={"left"} justify={"left"} direction={"row"} mt={6}>
           {skills.map((el) => {
             return (
@@ -295,52 +301,83 @@ function PwdProfile(props) {
             Available Jobs
           </Button>
         </HStack>
-        <Divider my={3} />
-        <Flex pb={10}>
-          <Box
-            w="50%"
-            bgColor="gray.100"
-            p={7}
-            mx="1"
-            borderRadius={5}
-            bg={useColorModeValue("white", "gray.900")}
-          >
-            <Text mb={2} fontWeight={600}>
-              SKILLS
-            </Text>
-            <Box colorScheme="f0f0f0" borderRadius="md" px={4}>
-              {skills.map((el) => {
-                return (
-                  <>
-                    <li>
-                      {el.SKILL_NAME.charAt(0).toUpperCase() +
-                        el.SKILL_NAME.slice(1).toLowerCase()}
-                    </li>
-                  </>
-                );
-              })}
-            </Box>
-          </Box>
-          <Spacer />
-          <Box
-            pb={10}
-            w="50%"
-            bgColor="gray.100"
-            p={7}
-            mx="1 "
-            bg={useColorModeValue("white", "gray.900")}
-          >
-            <Text textTransform="uppercase" fontWeight={600} mb={2}>
-              Contact Information
-            </Text>
-            <Box colorScheme="f0f0f0" borderRadius="md" px={4}>
-              <FormControl id="userName" mt={2}>
-                <FormLabel>Email: {email}</FormLabel>
-                <FormLabel>Contact number : {contact}</FormLabel>
-              </FormControl>
-            </Box>
-          </Box>
-        </Flex>
+        {/* <Divider my={3} /> */}
+
+        <Box mb={10}>
+          <Accordion defaultIndex={[0]} allowMultiple>
+            <AccordionItem bgColor="gray.50" borderLeft="3px solid gray">
+              <h2>
+                <AccordionButton>
+                  <Box as="span" flex="1" textAlign="left">
+                    Contact and Skills
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <Flex pb={10}>
+                  <Box
+                    w="50%"
+                    bgColor="gray.100"
+                    p={7}
+                    mx="1"
+                    borderRadius={5}
+                    bg={useColorModeValue("white", "gray.900")}
+                  >
+                    <Text mb={2} fontWeight={600}>
+                      SKILLS
+                    </Text>
+                    <Box colorScheme="f0f0f0" borderRadius="md" px={4}>
+                      {skills.map((el) => {
+                        return (
+                          <>
+                            <li>
+                              {el.SKILL_NAME.charAt(0).toUpperCase() +
+                                el.SKILL_NAME.slice(1).toLowerCase()}
+                            </li>
+                          </>
+                        );
+                      })}
+                    </Box>
+                  </Box>
+                  <Spacer />
+                  <Box
+                    pb={10}
+                    w="50%"
+                    bgColor="gray.100"
+                    p={7}
+                    mx="1 "
+                    bg={useColorModeValue("white", "gray.900")}
+                  >
+                    <Text textTransform="uppercase" fontWeight={600} mb={2}>
+                      Contact Information
+                    </Text>
+                    <Box colorScheme="f0f0f0" borderRadius="md" px={4}>
+                      <FormControl id="userName" mt={2}>
+                        <FormLabel>Email: {email}</FormLabel>
+                        <FormLabel>Contact number : {contact}</FormLabel>
+                      </FormControl>
+                    </Box>
+                  </Box>
+                </Flex>
+              </AccordionPanel>
+            </AccordionItem>
+
+            <AccordionItem bgColor="gray.50" borderLeft="3px solid gray" mt={3}>
+              <h2>
+                <AccordionButton>
+                  <Box as="span" flex="1" textAlign="left">
+                    Job Applications
+                  </Box>
+                  <AccordionIcon />
+                </AccordionButton>
+              </h2>
+              <AccordionPanel pb={4}>
+                <JobApplied />
+              </AccordionPanel>
+            </AccordionItem>
+          </Accordion>
+        </Box>
       </Stack>
 
       <Drawer isOpen={isOpen} placement="right" onClose={onClose} size="xl">
@@ -350,16 +387,9 @@ function PwdProfile(props) {
           <DrawerHeader>Jobs Available</DrawerHeader>
 
           <DrawerBody>
-            {/* <Input placeholder="Type here..." /> */}
-            <JobSpecific jobForId={jobForId} />
+            {/* <Input placeholder="Type herep..." /> */}
+            <JobSpecific jobForId={jobForId} userId={userid} />
           </DrawerBody>
-
-          <DrawerFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme="blue">Save</Button>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </Container>
