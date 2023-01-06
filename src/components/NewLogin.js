@@ -13,7 +13,7 @@ import {
   useColorModeValue,
   useColorMode,
 } from "@chakra-ui/react";
-import Glogin from "./Glogin";
+import Glogin from "./glogin";
 import { BsSun, BsMoonStarsFill } from "react-icons/bs";
 export default function NewLogin(props) {
   const { colorMode, toggleColorMode } = useColorMode();
