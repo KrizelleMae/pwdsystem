@@ -23,7 +23,7 @@ import {
 } from "@chakra-ui/react";
 
 import Sample from "../images/sample.mp4";
-import Glogin from "./Glogin";
+import Glogin from "./glogin";
 import { BsSun, BsMoonStarsFill } from "react-icons/bs";
 import api from "../restapi/api";
 import { useNavigate } from "react-router-dom";
