@@ -80,6 +80,7 @@ export default function CompanySignup(props) {
     });
 
     if (response.data.status === 1) {
+      localStorage.setItem("companyId", response.data.companyId);
       localStorage.setItem("id", response.data.id);
       navigate("/companyprofile");
     }

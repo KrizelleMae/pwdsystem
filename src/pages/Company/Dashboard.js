@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Container,
@@ -155,7 +156,17 @@ function Dashboard(props) {
                   {jobs.map((el) => {
                     return (
                       <>
-                        <li>{el.TITLE}</li>
+                        <li>
+                          {el.TITLE} ( {el.POSITION}) -
+                          <Badge
+                            ml={2}
+                            colorScheme={
+                              el.STATUS === "ACTIVE" ? "green" : "gray"
+                            }
+                          >
+                            {el.STATUS}
+                          </Badge>
+                        </li>
                       </>
                     );
                   })}
