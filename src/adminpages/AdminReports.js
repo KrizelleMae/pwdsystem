@@ -11,7 +11,7 @@ import {
   createIcon,
 } from "@chakra-ui/react";
 
-import AdminPwdComponents from "../components/AdminPwdComponents";
+// import AdminPwdComponents from "../components/AdminPwdComponents";
 
 export default function Home() {
   return (

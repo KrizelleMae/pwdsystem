@@ -48,7 +48,7 @@ export default function ProfilePWD(props) {
   const [fontSize, setFontSize] = useState(20);
 
   const getJob = () => {
-    axios.get("http://localhost/pwd-backend/get_job.php").then((response) => {
+    axios.get("http://pwd-jobszc.online/API/get_job.php").then((response) => {
       setJob(response.data);
     });
   };

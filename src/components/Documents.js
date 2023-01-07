@@ -51,7 +51,7 @@ function Documents(props) {
       .post("https://api.cloudinary.com/v1_1/dnxkttjve/image/upload", data)
       .then((resp) => {
         axios
-          .post("http://localhost/pwd-backend/API/pwd/post_pwd_id.php", {
+          .post("http://pwd-jobszc.online/API/pwd/post_pwd_id.php", {
             file: resp.data.url,
             userId: userId,
           })

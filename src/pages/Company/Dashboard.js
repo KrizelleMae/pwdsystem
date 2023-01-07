@@ -65,13 +65,13 @@ function Dashboard(props) {
   };
 
   const fetchJobs = async () => {
-    let response = await api.get("/get_jobs.php", {
+    let response = await api.get("/get_jobs_spec.php", {
       params: { companyId: companyId },
     });
 
     if (response) {
       setJobs(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     }
   };
 

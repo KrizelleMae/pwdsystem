@@ -60,6 +60,7 @@ function PopLogin(props) {
       // SUCCESS LOGIN
       localStorage.setItem("id", response.data.id);
       if (response.data.role === 3) {
+        localStorage.setItem("companyId", response.data.companyId);
         navigate("/companyprofile");
       } else if (response.data.role === 2) {
         navigate("/pwdprofile");

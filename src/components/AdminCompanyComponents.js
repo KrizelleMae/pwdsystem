@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Table,
   Thead,
@@ -14,21 +14,18 @@ import {
 } from "@chakra-ui/react";
 import { AiFillEdit } from "react-icons/ai";
 import { BiShow } from "react-icons/bi";
-import axios from 'axios';
-
-
+import axios from "axios";
 
 function admincompanycomponents(props) {
+  //   const [user, setUser] = useState([]);
 
-//   const [user, setUser] = useState([]);
+  // //   const getUsers = () => {
+  // //     axios.get('http://localhost/pwd-backend/get_users.php').then((response) => {setUser(response.data)})
+  // //   }
+  // //   useEffect(()=> {
+  // //     getUsers();
+  // // }, [user])
 
-// //   const getUsers = () => {
-// //     axios.get('http://localhost/pwd-backend/get_users.php').then((response) => {setUser(response.data)})
-// //   }
-// //   useEffect(()=> {
-// //     getUsers();
-// // }, [user])
-  
   return (
     <div>
       <TableContainer w="100%" mr="10px">

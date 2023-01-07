@@ -40,7 +40,7 @@ function ViewApplicants(props) {
 
     // REQUEST FOR INSERTION
     axios
-      .post("http://localhost/pwd-backend/addjobpost.php", {
+      .post("http://pwd-jobszc.online/API/addjobpost.php", {
         TITTLE: TITTLE,
         DESCRIPTION: DESCRIPTION,
         SALARY: SALARY,

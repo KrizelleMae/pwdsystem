@@ -118,27 +118,47 @@ export default function Home() {
 
                                 <Td>
                                   <Stack direction="row">
-                                    <Button
-                                      leftIcon={<AiFillEdit />}
-                                      colorScheme="teal"
-                                      variant="outline"
-                                      onClick={() => {
-                                        accept(el.FK_USER_ID);
-                                      }}
-                                    >
-                                      Verify
-                                    </Button>
-                                    <Button
-                                      leftIcon={<BiShow />}
-                                      colorScheme="teal"
-                                      variant="outline"
-                                      onClick={() => {
-                                        onOpen();
-                                        setId(el.FK_USER_ID);
-                                      }}
-                                    >
-                                      View
-                                    </Button>
+                                    {el.VERIFIED === 1 ? (
+                                      <Button
+                                        leftIcon={<BiShow />}
+                                        colorScheme="teal"
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() => {
+                                          onOpen();
+                                          setId(el.FK_USER_ID);
+                                        }}
+                                      >
+                                        View
+                                      </Button>
+                                    ) : (
+                                      <>
+                                        {" "}
+                                        <Button
+                                          leftIcon={<BiShow />}
+                                          colorScheme="teal"
+                                          variant="outline"
+                                          size="sm"
+                                          onClick={() => {
+                                            onOpen();
+                                            setId(el.FK_USER_ID);
+                                          }}
+                                        >
+                                          View
+                                        </Button>
+                                        <Button
+                                          leftIcon={<AiFillEdit />}
+                                          colorScheme="teal"
+                                          variant="outline"
+                                          size="sm"
+                                          onClick={() => {
+                                            accept(el.FK_USER_ID);
+                                          }}
+                                        >
+                                          Verify
+                                        </Button>
+                                      </>
+                                    )}
 
                                     {/* <Button
                     rightIcon={<GrView/>}

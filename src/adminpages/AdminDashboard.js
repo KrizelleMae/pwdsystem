@@ -6,8 +6,16 @@ import {
   Box,
   Link,
   IconButton,
+  Table,
+  Thead,
+  Th,
+  Tbody,
+  Tr,
+  Td,
   Center,
+  Heading,
 } from "@chakra-ui/react";
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 // import { FiMenu } from "react-icons/fi";
 import api from "../restapi/api";
@@ -23,12 +31,22 @@ export default function Home() {
     }
   };
 
+  const [company, setCompany] = useState([]);
+  const getCompany = () => {
+    axios
+      .get("http://localhost/pwd-backend/API/get_company.php")
+      .then((response) => {
+        setCompany(response.data);
+      });
+  };
+
   useEffect(() => {
     getCount();
-  }, [data]);
+    getCompany();
+  }, []);
   return (
     <Center>
-      <Box ml="20%">
+      <Box ml="15%">
         <Sidebar />
 
         <SimpleGrid
@@ -40,28 +58,79 @@ export default function Home() {
           w="100%"
           display="flex"
         >
-          <Box boxShadow="md" p="30" rounded="md" bg="white" w={300}>
+          <Box boxShadow="md" p="30" rounded="md" bg="white" w={320}>
             <Text>AVIALABLE JOBS</Text>
-            <Text fontSize="50px" color="Yellow">
+            <Text fontSize="50px" color="teal.700">
               {data.jobs}
             </Text>
-            ;
           </Box>
 
-          <Box boxShadow="md" p="30" rounded="md" bg="white" w={300}>
+          <Box boxShadow="md" p="30" rounded="md" bg="white" w={320}>
             <Text>COMPANY</Text>
-            <Text fontSize="50px" color="Yellow">
+            <Text fontSize="50px" color="teal.700">
               {data.company}
             </Text>
           </Box>
 
-          <Box boxShadow="md" p="30" rounded="md" bg="white" w={300}>
+          <Box boxShadow="md" p="30" rounded="md" bg="white" w={320}>
             <Text>PWDs</Text>
-            <Text fontSize="50px" color="Yellow">
+            <Text fontSize="50px" color="teal.700">
               {data.pwd}
             </Text>
           </Box>
         </SimpleGrid>
+
+        <Heading pb={50}>List of Company</Heading>
+
+        <Table bordered hover responsive colorScheme={"teal.200"}>
+          <Thead>
+            <Th>ID</Th>
+            <Th> Name</Th>
+            <Th> Representative</Th>
+            <Th> Email</Th>
+            {/* <Th> Actions</Th> */}
+          </Thead>
+          <Tbody>
+            {company.map((el) => {
+              return (
+                <>
+                  <Tr>
+                    <Td>{el.COMPANY_ID}</Td>
+                    <Td>{el.COMPANY_NAME}</Td>
+                    <Td>{el.REP_FIRSTNAME}</Td>
+                    <Td>{el.COMPANY_EMAIL}</Td>
+                    {/* <Td>
+                                  <Stack direction="row">
+                                    {/* <Button
+                                      leftIcon={<AiFillEdit />}
+                                      colorScheme="teal"
+                                      variant="outline"
+                                    >
+                                      Edit
+                                    </Button> 
+                                <Button
+                                  leftIcon={<BiShow />}
+                                  colorScheme="teal"
+                                  variant="outline"
+                                >
+                                  Accept
+                                </Button>
+                                */}
+                    {/* <Button
+                    rightIcon={<GrView/>}
+                    colorScheme="teal"
+                    variant="outline"
+                  >
+                    veiw
+                  </Button> */}
+                    {/* </Stack>
+                                </Td> */}
+                  </Tr>
+                </>
+              );
+            })}
+          </Tbody>
+        </Table>
       </Box>
     </Center>
   );

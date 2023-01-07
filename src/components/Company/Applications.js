@@ -43,9 +43,9 @@ function Applications(props) {
     setList(response.data);
   };
 
-  const acceptApplication = async (value) => {
+  const acceptApplication = async (userId, appId) => {
     let response = await api.post("/company/accept_application.php", {
-      userId: value,
+      userId: userId,
     });
     if (response.data.status === 1) {
       toast({
@@ -111,7 +111,7 @@ function Applications(props) {
                           fontSize={14}
                           colorScheme="green"
                           onClick={() => {
-                            acceptApplication(el.FK_USER_ID);
+                            acceptApplication(el.FK_USER_ID, el.APPLICATION_ID);
                           }}
                         >
                           Accept

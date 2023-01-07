@@ -162,7 +162,19 @@ function Homepage(props) {
                   Get started
                 </Button>
               </Link>
-              <WatchVideo />
+              <Button
+                as={Link}
+                rounded={"full"}
+                size={"lg"}
+                _hover={{ bg: "green.500", textDecoration: "none" }}
+                boxShadow="lg"
+                px={6}
+                target="_blank"
+                href="https://www.youtube.com/watch?v=QCIH60pU1eM&ab_channel=You"
+              >
+                {" "}
+                Watch Signing Up Tutorial!
+              </Button>
             </Stack>
           </Stack>
           <Flex
@@ -181,7 +193,7 @@ function Homepage(props) {
               <AspectRatio maxW="full" ratio={4 / 2}>
                 <iframe
                   title="Tutorial"
-                  src="https://youtube.com/embed/mtixdJuLuRI"
+                  src="https:youtube.com/embed/QCIH60pU1eM"
                   allowFullScreen
                 />
               </AspectRatio>

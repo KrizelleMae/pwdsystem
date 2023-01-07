@@ -26,7 +26,7 @@ import {
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
-import { BiShow } from "react-icons/bi";
+import { BiCheck, BiShow } from "react-icons/bi";
 import AdminPwdComponents from "../components/AdminPwdComponents";
 import AdminCompanyComponents from "../components/AdminCompanyComponents";
 import AddJobPost from "../components/AddJobPost";
@@ -44,6 +44,7 @@ export default function Home() {
 
   const [job, setJob] = useState([]);
   let toast = useToast();
+
   const getJob = () => {
     axios
       .get("http://localhost/pwd-backend/API/get_jobs.php")
@@ -53,9 +54,11 @@ export default function Home() {
   };
 
   const accept = async (value) => {
-    let response = await api.post("/admin/verify_account.php", {
+    let response = await api.post("/admin/verify_job.php", {
       jobId: value,
     });
+
+    // console.log(response.data);
     if (response.data.status === 1) {
       toast({
         title: "Success.",
@@ -180,23 +183,21 @@ export default function Home() {
                                 </Badge>
                               </Td>
                               <Td>
-                                <Button
-                                  leftIcon={<AiFillEdit />}
-                                  colorScheme="teal"
-                                  variant="outline"
-                                >
-                                  View
-                                </Button>{" "}
-                                <Button
-                                  leftIcon={<BiShow />}
-                                  colorScheme="teal"
-                                  variant="outline"
-                                  onClick={() => {
-                                    accept(e.JOB_ID);
-                                  }}
-                                >
-                                  Accept
-                                </Button>
+                                {e.STATUS === "ACTIVE" ? (
+                                  "-----"
+                                ) : (
+                                  <Button
+                                    leftIcon={<BiCheck />}
+                                    colorScheme="teal"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      accept(e.JOB_ID);
+                                    }}
+                                  >
+                                    Accept
+                                  </Button>
+                                )}
                               </Td>
                             </Tr>
                           );
