@@ -41,12 +41,23 @@ function JobPost(props) {
 
   const [fontSize, setFontSize] = useState(16);
 
+  const apply = () => {
+    toast({
+      position: "top",
+      title: "Login.",
+      description: "Kindly signup/login to apply!",
+      status: "warning",
+      duration: 3000,
+      isClosable: true,
+    });
+  };
+
   const fetchJobs = async () => {
     let response = await api.get("/get_all_jobs.php");
 
     if (response) {
       setList(response.data);
-      console.log(response.data);
+      // console.log(response.data);
     }
   };
 
@@ -148,13 +159,13 @@ function JobPost(props) {
                     </List>
                   </Stack>
 
-                  <Center>
+                  <Center mx={4}>
                     <Button
                       fontSize={"sm"}
                       rounded={"full"}
                       bg={"blue.400"}
                       color={"white"}
-                      w="100%"
+                      w="300px"
                       boxShadow={
                         "0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)"
                       }
@@ -165,13 +176,7 @@ function JobPost(props) {
                         bg: "blue.500",
                       }}
                       onClick={() => {
-                        toast({
-                          title: "Application Send.",
-                          description: "The company has been notified!",
-                          status: "success",
-                          duration: 3000,
-                          isClosable: true,
-                        });
+                        apply();
                       }}
                     >
                       Apply

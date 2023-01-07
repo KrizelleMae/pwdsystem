@@ -18,6 +18,7 @@ import {
   InputLeftElement,
   Heading,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import kcc from "../images/kcc.png";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -37,7 +38,7 @@ function AddJobPost(props) {
   const [checkList, setCheckList] = useState([]);
 
   let navigate = useNavigate();
-
+  let toast = useToast();
   // DISABILITIES
   const fetchDisabilities = async () => {
     let response = await api.get("/get_disabilities.php");
@@ -49,7 +50,7 @@ function AddJobPost(props) {
 
   const location = useLocation();
   const parameter = new URLSearchParams(location.search);
-  const [companyId, setCompanyId] = useState(parameter.get("id"));
+  const [companyId, setCompanyId] = useState(localStorage.getItem("companyId"));
 
   const postJob = async (event) => {
     event.preventDefault();
@@ -67,9 +68,17 @@ function AddJobPost(props) {
     });
 
     if (response) {
-      console.log(response.data);
-      // if( response.data.status === 1) {
-      // }
+      // console.log(response.data);
+      if (response.data.status === 1) {
+        toast({
+          position: "top",
+          title: "Success",
+          description: "New job post added",
+          variant: "top-accent",
+          isClosable: true,
+          status: "success",
+        });
+      }
     } else {
       console.log("No data fetched.");
     }

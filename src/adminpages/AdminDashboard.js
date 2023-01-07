@@ -99,32 +99,6 @@ export default function Home() {
                     <Td>{el.COMPANY_NAME}</Td>
                     <Td>{el.REP_FIRSTNAME}</Td>
                     <Td>{el.COMPANY_EMAIL}</Td>
-                    {/* <Td>
-                                  <Stack direction="row">
-                                    {/* <Button
-                                      leftIcon={<AiFillEdit />}
-                                      colorScheme="teal"
-                                      variant="outline"
-                                    >
-                                      Edit
-                                    </Button> 
-                                <Button
-                                  leftIcon={<BiShow />}
-                                  colorScheme="teal"
-                                  variant="outline"
-                                >
-                                  Accept
-                                </Button>
-                                */}
-                    {/* <Button
-                    rightIcon={<GrView/>}
-                    colorScheme="teal"
-                    variant="outline"
-                  >
-                    veiw
-                  </Button> */}
-                    {/* </Stack>
-                                </Td> */}
                   </Tr>
                 </>
               );
